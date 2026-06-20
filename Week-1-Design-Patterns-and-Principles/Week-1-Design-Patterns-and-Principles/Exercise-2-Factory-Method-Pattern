@@ -1,0 +1,9 @@
+# Exercise 2: Factory Method Pattern
+
+## Objective
+Implement the Factory Method Design Pattern in C# to create different types of documents such as Word, PDF, and Excel.
+
+## Output
+Word Document Opened
+PDF Document Opened
+Excel Document Opened
