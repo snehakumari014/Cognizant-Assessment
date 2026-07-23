@@ -11,3 +11,4 @@ obj/
 # User files
 *.user
 *.suo
+*.bak
