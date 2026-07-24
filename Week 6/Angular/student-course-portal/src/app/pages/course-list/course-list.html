@@ -1,8 +1,42 @@
 <h2>Available Courses</h2>
+<button (click)="toggleCourses()">
+  {{ showCourses ? 'Hide Courses' : 'Show Courses' }}
+</button>
 
-<ul>
-  <li>Angular Fundamentals</li>
-  <li>TypeScript Basics</li>
-  <li>Web Development</li>
-  <li>Java Programming</li>
-</ul>
+<br><br>
+
+<label>Search Course:</label>
+
+<input
+  type="text"
+  [(ngModel)]="searchText"
+  placeholder="Enter course name">
+
+<p>You typed: <strong>{{ searchText }}</strong></p>
+
+<hr>
+
+<p><strong>Selected Course:</strong> {{ selectedCourse }}</p>
+
+<div *ngIf="showCourses">
+  <div *ngFor="let course of courses">
+  <h3 [ngClass]="{'highlight': course.name === selectedCourse}">
+  {{ course.name }}
+</h3>
+
+  <p
+  [ngStyle]="{
+    'color': course.duration === '10 Weeks' ? 'red' : 'blue'
+  }">
+  Duration: {{ course.duration }}
+</p>
+  <p>Instructor: {{ course.instructor }}</p>
+
+  <button (click)="enroll(course.name)">
+    Enroll
+  </button>
+
+  <hr>
+</div>
+</div>
+
