@@ -19,24 +19,12 @@
 <p><strong>Selected Course:</strong> {{ selectedCourse }}</p>
 
 <div *ngIf="showCourses">
-  <div *ngFor="let course of courses">
-  <h3 [ngClass]="{'highlight': course.name === selectedCourse}">
-  {{ course.name }}
-</h3>
-
-  <p
-  [ngStyle]="{
-    'color': course.duration === '10 Weeks' ? 'red' : 'blue'
-  }">
-  Duration: {{ course.duration }}
+  <app-course-card
+  *ngFor="let c of courses"
+  [course]="c"
+  (enrollRequested)="onEnroll($event)">
+</app-course-card>
+</div>
+<p *ngIf="selectedCourseId">
+  Selected Course ID: {{ selectedCourseId }}
 </p>
-  <p>Instructor: {{ course.instructor }}</p>
-
-  <button (click)="enroll(course.name)">
-    Enroll
-  </button>
-
-  <hr>
-</div>
-</div>
-
