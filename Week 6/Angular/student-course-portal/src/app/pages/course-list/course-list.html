@@ -1,4 +1,5 @@
 <h2>Available Courses</h2>
+<p *ngIf="isLoading">Loading courses...</p>
 <button (click)="toggleCourses()">
   {{ showCourses ? 'Hide Courses' : 'Show Courses' }}
 </button>
@@ -18,12 +19,22 @@
 
 <p><strong>Selected Course:</strong> {{ selectedCourse }}</p>
 
-<div *ngIf="showCourses">
-  <app-course-card
-  *ngFor="let c of courses"
-  [course]="c"
-  (enrollRequested)="onEnroll($event)">
-</app-course-card>
+<div *ngIf="!isLoading && showCourses">
+
+  <div *ngIf="courses.length > 0; else noCourses">
+
+    <app-course-card
+      *ngFor="let c of courses; let i = index; trackBy: trackByCourseId"
+      [course]="c"
+      (enrollRequested)="onEnroll($event)">
+    </app-course-card>
+
+  </div>
+
+  <ng-template #noCourses>
+    <p>No courses available.</p>
+  </ng-template>
+
 </div>
 <p *ngIf="selectedCourseId">
   Selected Course ID: {{ selectedCourseId }}
