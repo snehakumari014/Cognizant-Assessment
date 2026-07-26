@@ -2,6 +2,8 @@ import { CourseCard } from '../../components/course-card/course-card';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CourseService } from '../../services/course';
+import { Course } from '../../models/course';
 
 @Component({
   selector: 'app-course-list',
@@ -12,14 +14,8 @@ import { FormsModule } from '@angular/forms';
 export class CourseList implements OnInit {
 
   isLoading = true;
-  courses = [
-    { id: 1, name: 'Angular Fundamentals', code: 'ANG101', credits: 4, gradeStatus: 'passed' },
-  { id: 2, name: 'TypeScript Basics', code: 'TS102', credits: 3, gradeStatus: 'failed' },
-  { id: 3, name: 'Web Development', code: 'WEB103', credits: 4, gradeStatus: 'pending' },
-  { id: 4, name: 'Java Programming', code: 'JAVA104', credits: 5, gradeStatus: 'passed' },
-  { id: 5, name: 'Database Management', code: 'DB105', credits: 3, gradeStatus: 'pending' }
-  
-];
+  constructor(private courseService: CourseService) {}
+  courses: Course[] = [];
   selectedCourse = '';
   searchText = '';
   showCourses = true;
@@ -38,9 +34,13 @@ onEnroll(courseId: number) {
   this.selectedCourseId = courseId;
 }
 ngOnInit(): void {
+
+  this.courses = this.courseService.getCourses();
+
   setTimeout(() => {
     this.isLoading = false;
   }, 1500);
+
 }
 // trackBy improves performance by reusing existing DOM elements
 // instead of recreating them when the list changes.
