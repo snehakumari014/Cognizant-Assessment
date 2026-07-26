@@ -11,6 +11,7 @@
 <input
   type="text"
   [(ngModel)]="searchText"
+  (ngModelChange)="updateSearch()"
   placeholder="Enter course name">
 
 <p>You typed: <strong>{{ searchText }}</strong></p>
@@ -23,11 +24,17 @@
 
   <div *ngIf="courses.length > 0; else noCourses">
 
-    <app-course-card
-      *ngFor="let c of courses; let i = index; trackBy: trackByCourseId"
-      [course]="c"
-      (enrollRequested)="onEnroll($event)">
-    </app-course-card>
+    <div
+  *ngFor="let c of courses; let i = index; trackBy: trackByCourseId"
+  (click)="viewCourse(c.id)"
+  style="cursor: pointer;">
+
+  <app-course-card
+    [course]="c"
+    (enrollRequested)="onEnroll($event)">
+  </app-course-card>
+
+</div>
 
   </div>
 
