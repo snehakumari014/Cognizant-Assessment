@@ -33,10 +33,10 @@
 
 <div *ngIf="!isLoading && showCourses">
 
-  <div *ngIf="courses.length > 0; else noCourses">
+  <div *ngIf="(courses$ | async)?.length! > 0; else noCourses">
 
     <div
-  *ngFor="let c of courses; let i = index; trackBy: trackByCourseId"
+  *ngFor="let c of (courses$ | async); let i = index; trackBy: trackByCourseId"
   (click)="viewCourse(c.id)"
   style="cursor: pointer;">
 

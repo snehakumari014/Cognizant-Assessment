@@ -2,10 +2,13 @@ import { CourseCard } from '../../components/course-card/course-card';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CourseService } from '../../services/course';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { loadCourses } from '../../store/course/course.actions';
+import { selectAllCourses } from '../../store/course/course.selectors';
 import { Course } from '../../models/course';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { CourseService } from '../../services/course';
 @Component({
   selector: 'app-course-list',
   imports: [CommonModule, FormsModule, CourseCard],
@@ -17,11 +20,14 @@ export class CourseList implements OnInit {
   isLoading = true;
   errorMessage = '';
   constructor(
+  private store: Store,
   private courseService: CourseService,
   private router: Router,
   private route: ActivatedRoute
-) {}
-  courses: Course[] = [];
+) {
+  this.courses$ = this.store.select(selectAllCourses);
+}
+  courses$: Observable<Course[]>;
   selectedCourse = '';
   searchText = '';
   showCourses = true;
@@ -63,18 +69,10 @@ ngOnInit(): void {
   this.searchText =
     this.route.snapshot.queryParamMap.get('search') || '';
 
-  this.courseService.getCourses().subscribe({
-    next: (courses) => {
-      this.courses = courses;
-    },
-    error: (err) => {
-      this.errorMessage = err.message;
-      this.isLoading = false;
-    },
-    complete: () => {
-      this.isLoading = false;
-    }
-  });
+  this.store.dispatch(loadCourses());
+  console.log('Dispatched loadCourses');
+
+this.isLoading = false;
 
 }
 
@@ -98,7 +96,7 @@ updateFirstCourse() {
     next: () => {
       alert('Course Updated!');
     },
-    error: (err) => console.error(err)
+    error: (err: any) => console.error(err)
   });
 
 }
@@ -109,7 +107,7 @@ deleteLastCourse() {
     next: () => {
       alert('Course Deleted!');
     },
-    error: (err) => console.error(err)
+    error: (err: any) => console.error(err)
   });
 
 }

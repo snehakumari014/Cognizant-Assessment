@@ -2,22 +2,24 @@
 
 <h3>Enrolled Courses</h3>
 
-<ul *ngIf="enrollmentService.getEnrolledCourses().length > 0; else noCourses">
+<ng-container *ngIf="enrollmentService.getEnrolledCourses() | async as courses">
 
-  <li *ngFor="let course of enrollmentService.getEnrolledCourses()">
+  <ul *ngIf="courses.length > 0; else noCourses">
 
-    <strong>{{ course.name }}</strong><br>
+    <li *ngFor="let course of courses">
 
-    Code: {{ course.code }}<br>
+      <strong>{{ course.name }}</strong><br>
 
-    Credits: {{ course.credits }}
+      Code: {{ course.code }}<br>
 
-  </li>
+      Credits: {{ course.credits }}
 
-</ul>
+    </li>
+
+  </ul>
+
+</ng-container>
 
 <ng-template #noCourses>
-
   <p>No courses enrolled yet.</p>
-
 </ng-template>
