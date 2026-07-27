@@ -15,6 +15,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class CourseList implements OnInit {
 
   isLoading = true;
+  errorMessage = '';
   constructor(
   private courseService: CourseService,
   private router: Router,
@@ -59,13 +60,21 @@ updateSearch(): void {
 }
 ngOnInit(): void {
 
-  this.courses = this.courseService.getCourses();
   this.searchText =
-  this.route.snapshot.queryParamMap.get('search') || '';
+    this.route.snapshot.queryParamMap.get('search') || '';
 
-  setTimeout(() => {
-    this.isLoading = false;
-  }, 1500);
+  this.courseService.getCourses().subscribe({
+    next: (courses) => {
+      this.courses = courses;
+    },
+    error: (err) => {
+      this.errorMessage = err.message;
+      this.isLoading = false;
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
 
 }
 
@@ -73,5 +82,35 @@ ngOnInit(): void {
 // instead of recreating them when the list changes.
 trackByCourseId(index: number, course: any): number {
   return course.id;
+}
+
+updateFirstCourse() {
+
+  const updatedCourse: Course = {
+    id: 1,
+    name: 'Angular Advanced',
+    code: 'ANG201',
+    credits: 5,
+    gradeStatus: 'passed'
+  };
+
+  this.courseService.updateCourse(1, updatedCourse).subscribe({
+    next: () => {
+      alert('Course Updated!');
+    },
+    error: (err) => console.error(err)
+  });
+
+}
+
+deleteLastCourse() {
+
+  this.courseService.deleteCourse(5).subscribe({
+    next: () => {
+      alert('Course Deleted!');
+    },
+    error: (err) => console.error(err)
+  });
+
 }
 }

@@ -31,10 +31,8 @@ export class EnrollmentService {
     return this.enrolledCourseIds.includes(courseId);
   }
 
-  getEnrolledCourses(): Course[] {
-    return this.enrolledCourseIds
-      .map(id => this.courseService.getCourseById(id))
-      .filter((course): course is Course => course !== undefined);
-  }
+  getEnrolledCourses() {
+  return this.courseService.getCourses();
+}
 
 }

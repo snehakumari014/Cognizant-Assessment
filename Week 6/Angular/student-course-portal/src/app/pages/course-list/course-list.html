@@ -1,11 +1,22 @@
 <h2>Available Courses</h2>
+<p *ngIf="errorMessage" style="color:red;">
+  {{ errorMessage }}
+</p>
 <p *ngIf="isLoading">Loading courses...</p>
 <button (click)="toggleCourses()">
   {{ showCourses ? 'Hide Courses' : 'Show Courses' }}
 </button>
 
 <br><br>
+<button (click)="updateFirstCourse()">
+  Update Course
+</button>
 
+<button (click)="deleteLastCourse()">
+  Delete Course
+</button>
+
+<br><br>
 <label>Search Course:</label>
 
 <input

@@ -9,10 +9,16 @@ import { CourseService } from '../../services/course';
 })
 export class CourseSummaryWidget {
 
-  constructor(private courseService: CourseService) {}
+  totalCourses = 0;
 
-  get totalCourses(): number {
-    return this.courseService.getCourses().length;
+  constructor(private courseService: CourseService) {
+
+    this.courseService.getCourses().subscribe({
+      next: (courses) => {
+        this.totalCourses = courses.length;
+      }
+    });
+
   }
 
 }
