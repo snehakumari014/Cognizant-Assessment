@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Course } from '../models/course';
 import { CourseService } from './course';
 
 @Injectable({
@@ -12,15 +11,10 @@ export class EnrollmentService {
   constructor(private courseService: CourseService) {}
 
   enroll(courseId: number): void {
-
-  console.log('Enroll clicked:', courseId);
-
-  if (!this.enrolledCourseIds.includes(courseId)) {
-    this.enrolledCourseIds.push(courseId);
+    if (!this.enrolledCourseIds.includes(courseId)) {
+      this.enrolledCourseIds.push(courseId);
+    }
   }
-
-  console.log('Current IDs:', this.enrolledCourseIds);
-}
 
   unenroll(courseId: number): void {
     this.enrolledCourseIds =
@@ -32,7 +26,7 @@ export class EnrollmentService {
   }
 
   getEnrolledCourses() {
-  return this.courseService.getCourses();
-}
+    return this.courseService.getCourses();
+  }
 
 }
