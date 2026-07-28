@@ -1,0 +1,25 @@
+<h2>Student Profile</h2>
+
+<h3>Enrolled Courses</h3>
+
+<ng-container *ngIf="enrollmentService.getEnrolledCourses() | async as courses">
+
+  <ul *ngIf="courses.length > 0; else noCourses">
+
+    <li *ngFor="let course of courses">
+
+      <strong>{{ course.name }}</strong><br>
+
+      Code: {{ course.code }}<br>
+
+      Credits: {{ course.credits }}
+
+    </li>
+
+  </ul>
+
+</ng-container>
+
+<ng-template #noCourses>
+  <p>No courses enrolled yet.</p>
+</ng-template>

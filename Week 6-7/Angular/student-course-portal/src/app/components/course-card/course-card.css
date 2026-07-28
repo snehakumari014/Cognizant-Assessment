@@ -1,0 +1,16 @@
+.card--full {
+  border: 2px solid blue;
+  background-color: #e6f2ff;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 8px;
+}
+
+.card--enrolled {
+  border: 2px solid green;
+  background-color: #e8ffe8;
+}
+
+.expanded {
+  padding-bottom: 30px;
+}

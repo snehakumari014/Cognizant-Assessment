@@ -1,0 +1,59 @@
+<h2>Available Courses</h2>
+<p *ngIf="errorMessage" style="color:red;">
+  {{ errorMessage }}
+</p>
+<p *ngIf="isLoading">Loading courses...</p>
+<button (click)="toggleCourses()">
+  {{ showCourses ? 'Hide Courses' : 'Show Courses' }}
+</button>
+
+<br><br>
+<button (click)="updateFirstCourse()">
+  Update Course
+</button>
+
+<button (click)="deleteLastCourse()">
+  Delete Course
+</button>
+
+<br><br>
+<label>Search Course:</label>
+
+<input
+  type="text"
+  [(ngModel)]="searchText"
+  (ngModelChange)="updateSearch()"
+  placeholder="Enter course name">
+
+<p>You typed: <strong>{{ searchText }}</strong></p>
+
+<hr>
+
+<p><strong>Selected Course:</strong> {{ selectedCourse }}</p>
+
+<div *ngIf="!isLoading && showCourses">
+
+  <div *ngIf="(courses$ | async)?.length! > 0; else noCourses">
+
+    <div
+  *ngFor="let c of (courses$ | async); let i = index; trackBy: trackByCourseId"
+  (click)="viewCourse(c.id)"
+  style="cursor: pointer;">
+
+  <app-course-card
+    [course]="c"
+    (enrollRequested)="onEnroll($event)">
+  </app-course-card>
+
+</div>
+
+  </div>
+
+  <ng-template #noCourses>
+    <p>No courses available.</p>
+  </ng-template>
+
+</div>
+<p *ngIf="selectedCourseId">
+  Selected Course ID: {{ selectedCourseId }}
+</p>
